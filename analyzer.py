@@ -8,17 +8,18 @@ class Analyzer:
     def __init__(self, start_date, end_date):
         self.start_date = start_date
         self.end_date = end_date
-        self.stocks = {}
+        self.stocks = []
 
-    def addStock(self, ticker):
-        self.stocks[ticker] = Stock(
+    def add_stock(self, ticker):
+        stock = Stock(
             ticker, self.start_date, self.end_date)
-        self.stocks[ticker].load_data()
+        stock.load_data()
+        self.stocks.append(stock)
 
 
 if __name__ == '__main__':
     analyzer = Analyzer("2012-01-01", "2016-01-01")
-    analyzer.addStock('BA')
-    analyzer.addStock('AAPL')
+    analyzer.add_stock('BA')
+    analyzer.add_stock('AAPL')
     for stock in analyzer.stocks:
-        print stock
+        print(stock.prices)
