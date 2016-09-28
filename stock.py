@@ -12,6 +12,3 @@ class Stock:
             "EOD/%s" % self.ticker,
             start_date=self.start_date,
             end_date=self.end_date)
-
-    def __str__(self):
-        return print(self.prices)
