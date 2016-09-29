@@ -1,6 +1,6 @@
 import quandl
 from stock import Stock
-quandl.ApiConfig.api_key = 'dgcHTAzfi_MGZNLZvzxS'
+quandl.ApiConfig.api_key = open('auth.txt', 'r').read()
 
 
 class Analyzer:
