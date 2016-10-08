@@ -60,3 +60,6 @@ target/
 
 # Authentification key
 auth.txt
+
+#Ipython Jupyter notebooks
+*.ipynb
