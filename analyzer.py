@@ -1,5 +1,9 @@
 import quandl
 from stock import Stock
+import matplotlib.pylab as plt
+
+
+
 quandl.ApiConfig.api_key = open('auth.txt', 'r').read()
 
 
@@ -22,4 +26,7 @@ if __name__ == '__main__':
     analyzer.add_stock('BA')
     analyzer.add_stock('AAPL')
     for stock in analyzer.stocks:
-        print(stock.prices)
+        ax = stock.prices['Adj_Close'].plot(label=stock.ticker)
+        plt.legend(loc=2, fontsize=14)
+    ax.set_ylabel('Adjusted Close')
+    plt.show()

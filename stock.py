@@ -8,7 +8,11 @@ class Stock:
         self.end_date = end_date
 
     def load_data(self):
-        self.prices = quandl.get(
-            "EOD/%s" % self.ticker,
-            start_date=self.start_date,
-            end_date=self.end_date)
+        try:
+            self.prices = quandl.get(
+                "EOD/%s.11" % self.ticker,
+                start_date=self.start_date,
+                end_date=self.end_date,
+                collapse='monthly')
+        except Exception as e:
+            print(e)
