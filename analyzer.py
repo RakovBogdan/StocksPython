@@ -19,6 +19,7 @@ class Analyzer:
             ticker, self.start_date, self.end_date)
         stock.load_data()
         self.stocks.append(stock)
+        self.gather_stocks_returns()
 
     def gather_stocks_returns(self):
         """collects stocks return dataframes into single dataframe gathered_returns"""
@@ -45,5 +46,3 @@ if __name__ == '__main__':
     analyzer = Analyzer("2012-01-01", "2016-01-01")
     analyzer.add_stock('BA')
     analyzer.add_stock('AAPL')
-    analyzer.gather_stocks_returns()
-    print(analyzer.gathered_returns)
