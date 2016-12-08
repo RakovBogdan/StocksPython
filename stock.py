@@ -1,11 +1,15 @@
 import quandl
 from itertools import chain
 
+
 class Stock:
     def __init__(self, ticker, start_date, end_date):
         self.ticker = ticker
         self.start_date = start_date
         self.end_date = end_date
+        self.prices = None
+        self.list_prices = None
+        self.pct_change = None
 
     def load_data(self):
         try:
@@ -19,6 +23,3 @@ class Stock:
             self.pct_change.rename(columns={'Adj_Close': self.ticker}, inplace=True)
         except Exception as e:
             print(e)
-
-    def calc_coef(self):
-        self.mean = self.pct_change.mean()

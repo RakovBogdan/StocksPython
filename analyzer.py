@@ -2,6 +2,7 @@ import quandl
 import pandas as pd
 from stock import Stock
 import matplotlib.pyplot as plt
+from markowitz_portfolio import MarkowitzPortfolio
 
 
 quandl.ApiConfig.api_key = open('auth.txt', 'r').read()
@@ -13,6 +14,8 @@ class Analyzer:
         self.start_date = start_date
         self.end_date = end_date
         self.stocks = []
+        self.gathered_returns = None
+        self.portfolio = None
 
     def add_stock(self, ticker):
         stock = Stock(
@@ -29,7 +32,7 @@ class Analyzer:
         self.gathered_returns = pd.concat(stock_returns_list, axis=1)
 
     def plot_stocks(self, pct=False):
-        if pct == False:
+        if pct is False:
             for stock in self.stocks:
                 ax = stock.prices['Adj_Close'].plot(label=stock.ticker)
                 plt.legend(loc=2, fontsize=14)
@@ -41,8 +44,13 @@ class Analyzer:
             ax.set_ylabel('% Change')
         plt.show()
 
+    def create_portfolio(self, target_return):
+        self.portfolio = MarkowitzPortfolio(self.gathered_returns, target_return)
+        self.portfolio.create_porfolio()
+        self.portfolio.weights.index = [stock.ticker for stock in self.stocks]
 
-if __name__ == '__main__':
-    analyzer = Analyzer("2012-01-01", "2016-01-01")
-    analyzer.add_stock('BA')
-    analyzer.add_stock('AAPL')
+
+    def plot_portfolio(self):
+        self.portfolio.weights.plot.pie(
+            subplots=True, figsize=(6, 6), fontsize=20, autopct='%.2f')
+        plt.show()
