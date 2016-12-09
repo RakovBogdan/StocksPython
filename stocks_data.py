@@ -2,13 +2,12 @@ import quandl
 import pandas as pd
 from stock import Stock
 import matplotlib.pyplot as plt
-from markowitz_portfolio import MarkowitzPortfolio
 
 
 quandl.ApiConfig.api_key = open('auth.txt', 'r').read()
 
 
-class Analyzer:
+class StocksData:
     # start_date and end_date format is yyyy-mm-dd
     def __init__(self, start_date, end_date):
         self.start_date = start_date
@@ -42,15 +41,4 @@ class Analyzer:
                 ax = (stock.pct_change * 100).plot(label=stock.ticker)
                 plt.legend(loc=2, fontsize=14)
             ax.set_ylabel('% Change')
-        plt.show()
-
-    def create_portfolio(self, target_return):
-        self.portfolio = MarkowitzPortfolio(self.gathered_returns, target_return)
-        self.portfolio.create_porfolio()
-        self.portfolio.weights.index = [stock.ticker for stock in self.stocks]
-
-
-    def plot_portfolio(self):
-        self.portfolio.weights.plot.pie(
-            subplots=True, figsize=(6, 6), fontsize=20, autopct='%.2f')
         plt.show()
