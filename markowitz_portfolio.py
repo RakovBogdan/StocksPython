@@ -42,6 +42,12 @@ class MarkowitzPortfolio:
         self.annual_return_pct = (self.weights * self.avg_rets).sum() * 12 * 100
         self.annual_std_pct = self.std * math.sqrt(12) * 100
 
+    def add_stock(self, ticker):
+        self.stocks_data.add_stock(ticker)
+        self.returns = self.stocks_data.gathered_returns
+        self.avg_rets = self.returns.mean()
+        self.cov_mat = self.returns.cov()
+
     def plot_portfolio(self):
         self.weights.index = [stock.ticker for stock in self.stocks_data.stocks]
         self.weights.name = 'Markovitz Portfolio'
