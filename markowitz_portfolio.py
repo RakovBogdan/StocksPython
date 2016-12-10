@@ -48,3 +48,39 @@ class MarkowitzPortfolio:
         self.weights.plot.pie(
             subplots=True, figsize=(6, 6), fontsize=20, autopct='%.2f')
         plt.show()
+
+    def plot_efficient_frontier(self):
+        import numpy as np
+        import cvxopt as opt
+        from cvxopt import blas, solvers
+
+        returns = self.stocks_data.gathered_returns.values.T
+        n = len(returns)
+        returns = np.asmatrix(returns)
+
+        N = 100
+        mus = [10 ** (5.0 * t / N - 1.0) for t in range(N)]
+
+        # Convert to cvxopt matrices
+        S = opt.matrix(np.cov(returns))
+        pbar = opt.matrix(np.mean(returns, axis=1))
+
+        # Create constraint matrices
+        G = -opt.matrix(np.eye(n))  # negative n x n identity matrix
+        h = opt.matrix(0.0, (n, 1))
+        A = opt.matrix(1.0, (1, n))
+        b = opt.matrix(1.0)
+
+        # Calculate efficient frontier weights using quadratic programming
+        portfolios = [solvers.qp(mu * S, -pbar, G, h, A, b)['x']
+                      for mu in mus]
+        # CALCULATE RISKS AND RETURNS FOR FRONTIER
+        returns = [blas.dot(pbar, x) for x in portfolios]
+        risks = [np.sqrt(blas.dot(x, S * x)) for x in portfolios]
+        annual_returns_pct = [(x * 100 * 12) for x in returns]
+        annual_risk_pct = [(y * 100 * math.sqrt(12)) for y in risks]
+
+        plt.ylabel('Annual returns, %')
+        plt.xlabel('Annual risk, %')
+        plt.plot(annual_risk_pct, annual_returns_pct, 'y-o')
+        plt.show()

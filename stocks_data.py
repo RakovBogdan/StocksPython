@@ -14,7 +14,6 @@ class StocksData:
         self.end_date = end_date
         self.stocks = []
         self.gathered_returns = None
-        self.portfolio = None
 
     def add_stock(self, ticker):
         stock = Stock(
