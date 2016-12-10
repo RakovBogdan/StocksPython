@@ -22,6 +22,12 @@ class StocksData:
         self.stocks.append(stock)
         self.gather_stocks_returns()
 
+    def remove_stock(self, ticker):
+        for stock in self.stocks:
+            if stock.ticker == ticker:
+                self.stocks.remove(stock)
+        self.gather_stocks_returns()
+
     def gather_stocks_returns(self):
         """collects stocks return dataframes into single dataframe gathered_returns"""
         stock_returns_list = []

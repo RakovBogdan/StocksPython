@@ -30,6 +30,7 @@ class MarkowitzPortfolio:
         target_ret = target_return / (100 * 12)
         self.weights = pfopt.markowitz_portfolio(
             self.cov_mat, self.avg_rets, target_ret)
+        self.calculate_returns_stds()
 
     def calculate_best_tangency_portfolio(self):
         self.weights = pfopt.tangency_portfolio(self.cov_mat, self.avg_rets)
@@ -41,6 +42,8 @@ class MarkowitzPortfolio:
         self.annual_relative_std = (self.std * math.sqrt(12) * 100) / (self.ret * 12)
         self.annual_return_pct = (self.weights * self.avg_rets).sum() * 12 * 100
         self.annual_std_pct = self.std * math.sqrt(12) * 100
+        self.weights.index = [stock.ticker for stock in self.stocks_data.stocks]
+        self.weights.name = 'Markowitz Portfolio'
 
     def add_stock(self, ticker):
         self.stocks_data.add_stock(ticker)
@@ -48,9 +51,13 @@ class MarkowitzPortfolio:
         self.avg_rets = self.returns.mean()
         self.cov_mat = self.returns.cov()
 
+    def remove_stock(self, ticker):
+        self.stocks_data.remove_stock(ticker)
+        self.returns = self.stocks_data.gathered_returns
+        self.avg_rets = self.returns.mean()
+        self.cov_mat = self.returns.cov()
+
     def plot_portfolio(self):
-        self.weights.index = [stock.ticker for stock in self.stocks_data.stocks]
-        self.weights.name = 'Markovitz Portfolio'
         self.weights.plot.pie(
             subplots=True, figsize=(6, 6), fontsize=20, autopct='%.2f')
         plt.show()
