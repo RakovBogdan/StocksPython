@@ -58,7 +58,10 @@ class MarkowitzPortfolio:
         self.cov_mat = self.returns.cov()
 
     def plot_portfolio(self):
-        plot_data = self.weights[ self.weights >= 0.00004]
+        """
+        0.0001 = 1% is minimum percentage for weight of stock to be plotted
+        """
+        plot_data = self.weights[ self.weights >= 0.0001]
         plot_data.plot.pie(
             subplots=True, figsize=(6, 6), fontsize=20, autopct='%.2f')
         plt.show()
