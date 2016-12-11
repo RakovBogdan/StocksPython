@@ -59,9 +59,9 @@ class MarkowitzPortfolio:
 
     def plot_portfolio(self):
         """
-        0.0001 = 1% is minimum percentage for weight of stock to be plotted
+        0.0001 = 0.01% is minimum percentage for weight of stock to be plotted
         """
-        plot_data = self.weights[ self.weights >= 0.0001]
+        plot_data = self.weights[self.weights >= 0.0001]
         plot_data.plot.pie(
             subplots=True, figsize=(6, 6), fontsize=20, autopct='%.2f')
         plt.show()
@@ -89,6 +89,7 @@ class MarkowitzPortfolio:
         b = opt.matrix(1.0)
 
         # Calculate efficient frontier weights using quadratic programming
+        solvers.options['show_progress'] = False
         portfolios = [solvers.qp(mu * S, -pbar, G, h, A, b)['x']
                       for mu in mus]
         # CALCULATE RISKS AND RETURNS FOR FRONTIER
