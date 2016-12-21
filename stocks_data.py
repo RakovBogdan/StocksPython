@@ -22,6 +22,7 @@ class StocksData:
         self.stocks.append(stock)
         self.gather_stocks_returns()
 
+
     def remove_stock(self, ticker):
         for stock in self.stocks:
             if stock.ticker == ticker:

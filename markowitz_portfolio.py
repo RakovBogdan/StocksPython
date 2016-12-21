@@ -46,10 +46,12 @@ class MarkowitzPortfolio:
         self.weights.name = 'Markowitz Portfolio'
 
     def add_stock(self, ticker):
+
         self.stocks_data.add_stock(ticker)
         self.returns = self.stocks_data.gathered_returns
         self.avg_rets = self.returns.mean()
         self.cov_mat = self.returns.cov()
+
 
     def remove_stock(self, ticker):
         self.stocks_data.remove_stock(ticker)
