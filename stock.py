@@ -13,10 +13,7 @@ class Stock:
         self.pct_change = None
 
     def load_data(self):
-        # start_dt = datetime.strptime(self.start_date, "%y-%m-%d")
-        # end_dt = datetime.strptime(self.end_date, "%y-%m-%d")
         base_url = "http://ichart.yahoo.com/table.csv?"
-
         year_start, month_start, day_start = self.start_date.split('-')
         year_end, month_end, day_end = self.end_date.split('-')
         # for some reason, month in yahoo starts with 0 so we have to substract 1

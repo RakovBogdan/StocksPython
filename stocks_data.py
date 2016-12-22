@@ -1,10 +1,6 @@
-import quandl
 import pandas as pd
 from stock import Stock
 import matplotlib.pyplot as plt
-
-
-quandl.ApiConfig.api_key = open('auth.txt', 'r').read()
 
 
 class StocksData:
