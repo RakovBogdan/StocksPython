@@ -28,9 +28,8 @@ class Stock:
             self.prices = pd.read_csv(base_url + params_for_url,
                                       index_col=0,
                                       parse_dates=True).iloc[:, -1:].iloc[::-1]
-            self.prices.rename(columns={'Adj Close': 'Adj_Close'}, inplace=True)
             self.list_prices = list(chain.from_iterable(self.prices.values))
-            self.pct_change = self.prices['Adj_Close'].pct_change().dropna()
-            self.pct_change.rename(columns={'Adj_Close': self.ticker}, inplace=True)
+            self.pct_change = self.prices['Adj Close'].pct_change().dropna()
+            self.pct_change.rename(columns={'Adj Close': self.ticker}, inplace=True)
         except Exception as e:
             print(e)

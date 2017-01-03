@@ -35,7 +35,7 @@ class StocksData:
     def plot_stocks(self, pct=False):
         if pct is False:
             for stock in self.stocks:
-                ax = stock.prices['Adj_Close'].plot(label=stock.ticker)
+                ax = stock.prices['Adj Close'].plot(label=stock.ticker)
                 plt.legend(loc=2, fontsize=14)
             ax.set_ylabel('Adjusted Close')
         else:
@@ -44,3 +44,17 @@ class StocksData:
                 plt.legend(loc=2, fontsize=14)
             ax.set_ylabel('% Change')
         plt.show()
+
+    def possible_stocks_from_query(self, query):
+        import requests
+        url = "http://d.yimg.com/aq/autoc?query={0}&region=US&lang=en-US".format(query)
+        response = requests.get(url)
+        list_suggest = response.json()['ResultSet']['Result']
+
+        list_suggest_formatted = []
+        for item in list_suggest:
+            formatted = '{0}/{1}/{2}-{3}'.format(
+                item['symbol'], item['name'], item['typeDisp'], item['exchDisp']
+            )
+            list_suggest_formatted.append(formatted)
+        return list_suggest_formatted
